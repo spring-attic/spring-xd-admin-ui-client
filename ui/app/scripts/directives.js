@@ -62,7 +62,7 @@ define(['angular', 'xregexp', 'moment'], function(angular) {
               }
               return p1 + XRegExp.replace(p3, subRegex,'*');
             });
-            element.html(result);
+            element.text(result);
           }
         });
       };
