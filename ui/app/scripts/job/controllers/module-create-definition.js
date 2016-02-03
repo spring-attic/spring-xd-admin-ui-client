@@ -23,6 +23,28 @@ define([], function () {
   'use strict';
   return ['$scope', 'JobModuleService', 'XDUtils', '$state', '$stateParams',
     function ($scope, jobModuleService, utils, $state, $stateParams) {
+      function escapeStringIfNecessary(name, value) {
+        if (value && /\s/g.test(value)) {
+          return '"' + value + '"';
+        }
+        else if (name === 'password' || name === 'passwd') {
+          return '"' + value + '"';
+        }
+        else {
+          return value;
+        }
+      }
+      function calculateDefinition(jobDefinition) {
+        var arrayLength = jobDefinition.parameters.length;
+        $scope.calculatedDefinition = $scope.moduleDetails.name;
+        for (var i = 0; i < arrayLength; i++) {
+          var parameter = jobDefinition.parameters[i];
+          if (parameter.value) {
+            var parameterValueToUse = escapeStringIfNecessary(parameter.name, parameter.value);
+            $scope.calculatedDefinition = $scope.calculatedDefinition + ' --' + parameter.name + '=' + parameterValueToUse;
+          }
+        }
+      }
       $scope.$apply(function () {
 
         $scope.moduleName = $stateParams.moduleName;
@@ -76,29 +98,6 @@ define([], function () {
             calculateDefinition($scope.jobDefinition);
           }
         }, true);
-
-        function calculateDefinition(jobDefinition) {
-          var arrayLength = jobDefinition.parameters.length;
-          $scope.calculatedDefinition = $scope.moduleDetails.name;
-          for (var i = 0; i < arrayLength; i++) {
-            var parameter = jobDefinition.parameters[i];
-            if (parameter.value) {
-              var parameterValueToUse = escapeStringIfNecessary(parameter.name, parameter.value);
-              $scope.calculatedDefinition = $scope.calculatedDefinition + ' --' + parameter.name + '=' + parameterValueToUse;
-            }
-          }
-        }
-        function escapeStringIfNecessary(name, value) {
-          if (value && /\s/g.test(value)) {
-            return '"' + value + '"';
-          }
-          else if (name === 'password' || name === 'passwd') {
-            return '"' + value + '"';
-          }
-          else {
-            return value;
-          }
-        }
       });
     }];
 });

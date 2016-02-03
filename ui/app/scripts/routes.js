@@ -89,7 +89,7 @@ define(['./app'], function (xdAdmin) {
       controller: 'AboutController',
       templateUrl : sharedTemplatesPath + '/about.html',
       data:{
-        authenticate: false
+        authenticate: true
       }
     })
     .state('login', {
@@ -280,7 +280,7 @@ define(['./app'], function (xdAdmin) {
     $rootScope.enableMessageRates = true;
 
     $rootScope.$on('$stateChangeStart', function(event, toState) {
-        if (userService.authenticationEnabled && toState.data.authenticate && !userService.isAuthenticated){
+        if ($rootScope.user.authenticationEnabled && toState.data.authenticate && !$rootScope.user.isAuthenticated){
           $log.info('Need to authenticate...');
           $state.go('login');
           event.preventDefault();

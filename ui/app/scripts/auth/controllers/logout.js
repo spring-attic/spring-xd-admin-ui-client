@@ -23,16 +23,16 @@ define([], function () {
   'use strict';
   return ['$window', 'XDUtils', '$state', '$log', '$rootScope', '$http', function ($window, XDUtils, $state, $log, $rootScope, $http) {
     $log.info('Logging out...');
-    $http.get($rootScope.xdAdminServerUrl + '/admin-ui/logout');
+    $http.get($rootScope.xdAdminServerUrl + '/admin-ui/logout').then(function() {
+      $rootScope.user = {
+        authenticationEnabled: true,
+        isAuthenticated: false,
+        username: ''
+      };
 
-    $rootScope.user = {
-      authenticationEnabled: true,
-      isAuthenticated: false,
-      username: ''
-    };
-
-    delete $http.defaults.headers.common[$rootScope.xAuthTokenHeaderName];
-    XDUtils.growl.success('Logged out.');
-    $state.go('login');
+      delete $http.defaults.headers.common[$rootScope.xAuthTokenHeaderName];
+      XDUtils.growl.success('Logged out.');
+      $state.go('login');
+    });
   }];
 });

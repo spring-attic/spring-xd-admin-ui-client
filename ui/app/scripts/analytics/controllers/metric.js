@@ -97,7 +97,7 @@ define([], function () {
                 ];
             }
 
-            var dataHandlers = {
+            var dataHandlers = { // jshint ignore:line
                 'Counters': processValueData,
                 'Aggregate-Counters': processCountsData,
                 'Field-Value-Counters': processCountsData,
