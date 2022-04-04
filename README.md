@@ -1,3 +1,5 @@
+# spring-xd-admin-ui-client is no longer actively maintained by VMware, Inc.
+
 Spring XD User Interface Module
 ===============================
 
